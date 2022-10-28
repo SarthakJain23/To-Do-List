@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
-mongoose.connect('mongodb://localhost:27017/todolistDB', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://admin-sarthak:admin123@cluster0.jrsf9rv.mongodb.net/todolistDB', { useNewUrlParser: true });
 
 const itemsSChema = {
     name: String
@@ -56,7 +56,7 @@ app.get('/', function (req, res) {
             res.redirect('/');
         }
         else {
-            res.render('List', { listTitle: day, newListItem: foundItems });
+            res.render('List', { listTitle: 'Today', newListItem: foundItems });
         }
     });
 
@@ -94,7 +94,7 @@ app.post('/', function (req, res) {
         name: itemName
     });
 
-    if (listName === day) {
+    if (listName === 'Today') {
         item.save();
         res.redirect('/');
     } else {
@@ -110,7 +110,7 @@ app.post('/delete', (req, res) => {
     const checkedItemId = req.body.checkbox;
     const listName = req.body.listName;
 
-    if (listName === day) {
+    if (listName === 'Today') {
         Item.findByIdAndRemove(checkedItemId, (err) => {
             if (err) {
                 console.log(err);
